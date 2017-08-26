@@ -2,10 +2,6 @@
 
 Uses http://www.football-data.org/ API.
 
-### Check Live Version Here :
-
-https://xmartinezpujol.github.io/liga-app/
-
 ### Client localhost
 Node/NPM required to install dependencies.
 
