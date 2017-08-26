@@ -100,7 +100,7 @@ header .top-menu span{
 }
 
 .player-sorters-wrapper{
-  box-shadow: 0 1px 2px rgba(0,0,0,0.24);  
+  box-shadow: 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .player-sorters{
@@ -125,15 +125,33 @@ header .top-menu span{
   padding-right: 10px;
 }
 
-.player-sorter{
+.player-sorter-asc{
   border-color: #000000 transparent;
   border-style: solid;
   border-width: 10px 6px 0px 6px;
   width: 0;
   height: 0;
+  margin: 2px;
 }
 
-.player-sorter:hover{
+.player-sorter-desc{
+  border-color: #000000 transparent;
+  border-style: solid;
+  border-width: 0px 6px 10px 6px;
+  width: 0;
+  height: 0;
+  margin: 2px;
+}
+
+.player-sorter-inactive{
+  border-color: #909090 transparent;
+}
+
+.player-sorter-desc:hover, .player-sorter-asc:hover{
   cursor: pointer;
   border-color: red transparent;
+}
+
+.player-sorter-inactive:hover{
+  cursor: pointer;
 }

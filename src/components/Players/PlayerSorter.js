@@ -10,18 +10,24 @@ class PlayerSorter extends React.Component{
     this.handleSort = this.handleSort.bind(this);
   }
 
-  handleSort() {
+  handleSort(order) {
     //Scroll to top on PlayerList update
     document.getElementsByClassName("player-list")[0].scrollTop = 0;
 
     this.setState(() => {
-      if(this.state.sort === 'desc'){
-        this.props.onSorting(this.props.sort, "asc");
-        return {sort: 'asc'}
+      if(order){
+        this.props.onSorting(this.props.sort, order, this.props.id);
+        return {sort: order}
       }
       else{
-        this.props.onSorting(this.props.sort, "desc");
-        return {sort: 'desc'}
+        if(this.state.sort === 'desc'){
+          this.props.onSorting(this.props.sort, "asc", this.props.id);
+          return {sort: 'asc'}
+        }
+        else{
+          this.props.onSorting(this.props.sort, "desc", this.props.id);
+          return {sort: 'desc'}
+        }
       }
     })
   }
@@ -30,7 +36,15 @@ class PlayerSorter extends React.Component{
     return(
       <div className="player-sorter-cont">
         <span className="sort-label">{this.props.label}</span>
-        <div onClick={this.handleSort} className="player-sorter"></div>
+        {this.props.active &&
+          <div onClick={() => this.handleSort()} className={`player-sorter-${this.state.sort}`}></div>
+        }
+        {!this.props.active &&
+          <div>
+            <div onClick={() => this.handleSort("desc")} className="player-sorter-inactive player-sorter-desc" ></div>
+            <div onClick={() => this.handleSort("asc")} className="player-sorter-inactive player-sorter-asc" ></div>
+          </div>
+        }
       </div>
     );
   }

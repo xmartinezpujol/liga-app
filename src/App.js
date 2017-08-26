@@ -16,7 +16,8 @@ class App extends Component {
     this.state = {
       teams: null,
       playerlist: [],
-      playerscount: 0
+      playerscount: 0,
+      activesort: 0
     };
     this.loadTeamsData = this.loadTeamsData.bind(this);
     this.loadPlayersData = this.loadPlayersData.bind(this);
@@ -49,6 +50,8 @@ class App extends Component {
           this.setState({
             playerlist: this.state.playerlist.concat(newones)
           });
+
+          this.handlePlayersSort("name", "desc", 0);
         }
       )
       .catch((res) => {
@@ -81,7 +84,8 @@ class App extends Component {
       });
   }
 
-  handlePlayersSort(type, order) {
+  handlePlayersSort(type, order, id) {
+    console.log(id);
     function compareValues(a, b) {
       if(typeof(a) === 'number' || typeof(b) === 'number'){
         return a - b;
@@ -97,13 +101,12 @@ class App extends Component {
     });
 
     this.setState(() => {
-      if(order === 'asc'){
-        return { playerlist: sortedplayers }
+      if(order === 'desc'){
+        return { playerlist: sortedplayers, activesort: id }
       }
       else{
-        return { playerlist: sortedplayers.reverse() }
+        return { playerlist: sortedplayers.reverse(), activesort: id }
       }
-
     });
   }
 
@@ -134,11 +137,26 @@ class App extends Component {
                     return (
                       <div className="player-sorters-wrapper">
                         <div className="player-sorters">
-                          <PlayerSorter sort={"name"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Name" />
-                          <PlayerSorter sort={"nationality"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Nationality" />
-                          <PlayerSorter sort={"position"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Position" />
-                          <PlayerSorter sort={"jerseyNumber"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Number" />
-                          <PlayerSorter sort={"team"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Team" />
+                          <PlayerSorter active={this.state.activesort === 0 ? true : false}
+                                        id={0}
+                                        sort={"name"}
+                                        onSorting={(type, order, id) => this.handlePlayersSort(type, order, id)} label="Name" />
+                          <PlayerSorter active={this.state.activesort === 1 ? true : false}
+                                        id={1}
+                                        sort={"nationality"}
+                                        onSorting={(type, order, id) => this.handlePlayersSort(type, order, id)} label="Nationality" />
+                          <PlayerSorter active={this.state.activesort === 2 ? true : false}
+                                        id={2}
+                                        sort={"position"}
+                                        onSorting={(type, order, id) => this.handlePlayersSort(type, order, id)} label="Position" />
+                          <PlayerSorter active={this.state.activesort === 3 ? true : false}
+                                        id={3}
+                                        sort={"jerseyNumber"}
+                                        onSorting={(type, order, id) => this.handlePlayersSort(type, order, id)} label="Number" />
+                          <PlayerSorter active={this.state.activesort === 4 ? true : false}
+                                        id={4}
+                                        sort={"team"}
+                                        onSorting={(type, order, id) => this.handlePlayersSort(type, order, id)} label="Team" />
                         </div>
                       </div>
                     );
