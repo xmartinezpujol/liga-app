@@ -68,7 +68,7 @@ class App extends Component {
 
   //Gets Teams data from API
   loadTeamsData() {
-    let urlteam = `http://api.football-data.org/v1/soccerseasons/399/teams`;
+    let urlteam = `https://api.football-data.org/v1/soccerseasons/399/teams`;
     fetch(urlteam, {
       method: 'get',
       headers: {
