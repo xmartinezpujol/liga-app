@@ -1,0 +1,92 @@
+
+
+.App {
+  text-align: center;
+}
+
+.logo{
+  width: auto;
+  height: 25px;
+}
+
+.top-menu{
+  position: fixed;
+  background-color: white;
+  z-index: 100;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+header .top-menu span{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.hero-players{
+  position: relative;
+  padding-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 500px;
+  background-image: url("/img/camp_nou.jpg");
+  background-position: 50%;
+  background-size: cover;
+}
+
+.hero-players span{
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
+  display: block;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+}
+
+.hero-players span:nth-of-type(2){
+  font-size: 80px;
+}
+
+/* PLAYER LIST */
+.player-list{
+  max-width: 1200px;
+  margin: 100px auto;
+}
+
+/* PLAYER ITEM */
+.player-item{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid lightgrey;
+}
+
+.player-item p{
+  width: 200px;
+  text-align: left;
+  color: #909090;
+}
+
+.player-item p:first-of-type{
+  color: black;
+  font-weight: bold;
+}
+
+.player-item .crest-wrapper{
+  border-radius: 50%;
+  border: 1px solid black;
+  padding: 8px;
+  margin-left: 25px;
+}
+
+.player-teamcrest{
+  width: 25px;
+  height: 25px;
+}
