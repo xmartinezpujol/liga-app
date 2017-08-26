@@ -4,6 +4,8 @@ import './css/animations.css';
 import Header from './components/Header/Header';
 import TotalPlayers from './components/Players/TotalPlayers';
 import PlayerList from './components/Players/PlayerList';
+import PlayerSorter from './components/Players/PlayerSorter';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 const API_TOKEN = 'f7f2051260a8417b8eae9fb4de617af3';
 
@@ -12,13 +14,13 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: null,
       teams: null,
       playerlist: [],
       playerscount: 0
     };
     this.loadTeamsData = this.loadTeamsData.bind(this);
     this.loadPlayersData = this.loadPlayersData.bind(this);
+    this.handlePlayersSort = this.handlePlayersSort.bind(this);
   }
 
   componentWillMount() {
@@ -26,8 +28,7 @@ class App extends Component {
   }
 
   loadPlayersData(team) {
-    const urlteam = team._links.players.href
-    //console.log(urlteam);
+    const urlteam = team._links.players.href;
 
     fetch(urlteam, {
       method: 'get',
@@ -80,6 +81,32 @@ class App extends Component {
       });
   }
 
+  handlePlayersSort(type, order) {
+    function compareValues(a, b) {
+      if(typeof(a) === 'number' || typeof(b) === 'number'){
+        return a - b;
+      }
+      else{
+        return a.localeCompare(b);
+      }
+    }
+
+    let players = this.state.playerlist;
+    let sortedplayers = players.sort((a, b) => {
+      return compareValues(a[type], b[type]);
+    });
+
+    this.setState(() => {
+      if(order === 'asc'){
+        return { playerlist: sortedplayers }
+      }
+      else{
+        return { playerlist: sortedplayers.reverse() }
+      }
+
+    });
+  }
+
   render() {
     const teams = this.state.teams;
     const playerlist = this.state.playerlist;
@@ -96,11 +123,30 @@ class App extends Component {
           	<span id="bubblingG_3">
           	</span>
           </div>
-        }        
+        }
         {playerlist !== []  &&
           <div style={{animation: "fadeIn 2s"}}>
             <TotalPlayers count={playerlist.length} />
-            <PlayerList players={playerlist}/>
+            <StickyContainer >
+              <Sticky relative={true} topOffset={0} disableCompensation>
+                {
+                  () => {
+                    return (
+                      <div className="player-sorters-wrapper">
+                        <div className="player-sorters">
+                          <PlayerSorter sort={"name"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Name" />
+                          <PlayerSorter sort={"nationality"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Nationality" />
+                          <PlayerSorter sort={"position"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Position" />
+                          <PlayerSorter sort={"jerseyNumber"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Number" />
+                          <PlayerSorter sort={"team"} onSorting={(type, order) => this.handlePlayersSort(type, order)} label="Team" />
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+              </Sticky>
+              <PlayerList players={playerlist}/>
+            </StickyContainer >
           </div>
         }
       </div>

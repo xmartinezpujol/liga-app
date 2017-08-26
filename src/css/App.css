@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  margin-bottom: 50px;
 }
 
 .logo{
@@ -55,7 +56,9 @@ header .top-menu span{
 /* PLAYER LIST */
 .player-list{
   max-width: 1200px;
-  margin: 100px auto;
+  margin: 0 auto;
+  overflow-y: scroll;
+  height: 450px;
 }
 
 /* PLAYER ITEM */
@@ -89,4 +92,48 @@ header .top-menu span{
 .player-teamcrest{
   width: 25px;
   height: 25px;
+}
+
+.sort-label{
+  text-transform: uppercase;
+  color: #909090;
+}
+
+.player-sorters-wrapper{
+  box-shadow: 0 1px 2px rgba(0,0,0,0.24);  
+}
+
+.player-sorters{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 100px;
+}
+
+.player-sorter-cont{
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  width: 200px;
+  height: 100%;
+}
+
+.player-sorter-cont .sort-label{
+  padding-right: 10px;
+}
+
+.player-sorter{
+  border-color: #000000 transparent;
+  border-style: solid;
+  border-width: 10px 6px 0px 6px;
+  width: 0;
+  height: 0;
+}
+
+.player-sorter:hover{
+  cursor: pointer;
+  border-color: red transparent;
 }
