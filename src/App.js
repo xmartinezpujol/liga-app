@@ -5,29 +5,35 @@ import Header from './components/Header/Header';
 import TotalPlayers from './components/Players/TotalPlayers';
 import PlayerList from './components/Players/PlayerList';
 import PlayerSorter from './components/Players/PlayerSorter';
+import Filter from './components/Players/Filter';
 import { StickyContainer, Sticky } from 'react-sticky';
 
+//Footbal API token (beware request limits when reloading)
 const API_TOKEN = 'f7f2051260a8417b8eae9fb4de617af3';
 
 class App extends Component {
-
   constructor(props){
     super(props);
     this.state = {
       teams: null,
       playerlist: [],
+      playersinit: [],
       playerscount: 0,
       activesort: 0
     };
     this.loadTeamsData = this.loadTeamsData.bind(this);
     this.loadPlayersData = this.loadPlayersData.bind(this);
     this.handlePlayersSort = this.handlePlayersSort.bind(this);
+    this.handlePlayersFilter = this.handlePlayersFilter.bind(this);
+    this.filterList = this.filterList.bind(this);
   }
 
+  //Loading functions
   componentWillMount() {
     this.loadTeamsData();
   }
 
+  //Gets Players data from API
   loadPlayersData(team) {
     const urlteam = team._links.players.href;
 
@@ -48,7 +54,8 @@ class App extends Component {
           });
 
           this.setState({
-            playerlist: this.state.playerlist.concat(newones)
+            playerlist: this.state.playerlist.concat(newones),
+            playersinit: this.state.playerlist.concat(newones)
           });
 
           this.handlePlayersSort("name", "desc", 0);
@@ -59,6 +66,7 @@ class App extends Component {
       });
   }
 
+  //Gets Teams data from API
   loadTeamsData() {
     let urlteam = `http://api.football-data.org/v1/soccerseasons/399/teams`;
     fetch(urlteam, {
@@ -84,8 +92,35 @@ class App extends Component {
       });
   }
 
+  //Filtering features for PlayerList
+  handlePlayersFilter(checked, value, group) {
+    if(checked){
+      let filteredplayers = this.state.playerlist.filter((player) => {
+        return player[group] !== value
+      });
+
+      this.setState(() =>{
+        return {playerlist: filteredplayers}
+      })
+    }
+    else{
+      let filteredplayers = this.state.playersinit.filter((player) => {
+        return player[group] === value
+      });
+
+      let newplayerlist = this.state.playerlist.concat(filteredplayers)
+      let uniqueslist = newplayerlist.filter((value, index) => {
+        return newplayerlist.indexOf(value) === index
+      });
+
+      this.setState(() =>{
+        return {playerlist: uniqueslist}
+      })
+    }
+  }
+
+  //Player Sorting for PlayerList
   handlePlayersSort(type, order, id) {
-    console.log(id);
     function compareValues(a, b) {
       if(typeof(a) === 'number' || typeof(b) === 'number'){
         return a - b;
@@ -110,13 +145,38 @@ class App extends Component {
     });
   }
 
+  //Filters a list of elements to get them ready for mapping
+  filterList(list, filter, limit) {
+    let valuelist = list.map((values) => {
+      return values[filter];
+    });
+
+    let filteredvals = valuelist.filter((option, index) => {
+      return valuelist.indexOf(option) === index
+    }).sort((a, b) => {
+      if(typeof(a) === 'number' || typeof(b) === 'number'){
+        return b - a;
+      }
+      else{
+        return a.localeCompare(b);
+      }
+    });
+
+    //Limited to X for demo, too many values to show
+    if(limit) filteredvals = filteredvals.slice(0, limit);
+
+    return filteredvals;
+  }
+
   render() {
-    const teams = this.state.teams;
+    //Init
     const playerlist = this.state.playerlist;
+    const playersinit = this.state.playersinit;
 
     return (
       <div className="App">
         <Header />
+        { /* Loader (when necessary) */ }
         {playerlist === [] &&
           <div className="bubblingG">
           	<span id="bubblingG_1">
@@ -127,9 +187,47 @@ class App extends Component {
           	</span>
           </div>
         }
+        { /* Loads players in real time based on teams collection */ }
         {playerlist !== []  &&
           <div style={{animation: "fadeIn 2s"}}>
             <TotalPlayers count={playerlist.length} />
+            { /* Filter for Nationality */ }
+            <div className="filter-list">
+              <strong>Nationality:</strong>
+              {this.filterList(playersinit, "nationality", 4).map((option, index) => {
+                  return(
+                    <Filter onCheck={(checked, name, group) => this.handlePlayersFilter(checked, name, group)}
+                            key={index}
+                            name={option}
+                            group="nationality" />
+                  );
+              })}
+            </div>
+            <div className="filter-list">
+              <strong>Position:</strong>
+              { /* Filter for Position */ }
+              {this.filterList(playersinit, "position", 4).map((option, index) => {
+                  return(
+                    <Filter onCheck={(checked, name, group) => this.handlePlayersFilter(checked, name, group)}
+                            key={index}
+                            name={option}
+                            group="position" />
+                  );
+              })}
+            </div>
+            <div className="filter-list">
+              <strong>Number:</strong>
+              { /* Filter for Number */ }
+              {this.filterList(playersinit, "jerseyNumber", 4).map((option, index) => {
+                  return(
+                    <Filter onCheck={(checked, name, group) => this.handlePlayersFilter(checked, name, group)}
+                            key={index}
+                            group="number"
+                            name={option} />
+                  );
+              })}
+            </div>
+            { /* Results table for Players with Sorters */ }
             <StickyContainer className="sticky-container">
               <Sticky relative={true} topOffset={0} disableCompensation>
                 {

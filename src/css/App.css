@@ -158,6 +158,20 @@ header .top-menu span{
   cursor: pointer;
 }
 
+.filter{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+.filter-list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input[type="checkbox"]{
+  min-width: 15px !important;
+}
+
 @media only screen and (max-width: 1199px) {
   .player-sorter-cont{
     justify-content: center;
@@ -199,5 +213,14 @@ header .top-menu span{
   }
   .sticky-container{
     overflow: auto;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .filter{
+    font-size: 10px;
+    max-width: 60px;
+  }
+  strong{
+    font-size: 10px;
   }
 }

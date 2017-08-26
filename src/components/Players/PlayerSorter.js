@@ -10,6 +10,7 @@ class PlayerSorter extends React.Component{
     this.handleSort = this.handleSort.bind(this);
   }
 
+  //Updates PlayerList sorting in App
   handleSort(order) {
     //Scroll to top on PlayerList update
     document.getElementsByClassName("player-list")[0].scrollTop = 0;
@@ -36,9 +37,11 @@ class PlayerSorter extends React.Component{
     return(
       <div className="player-sorter-cont">
         <span className="sort-label">{this.props.label}</span>
+        { /* Active state (focused-selected) */ }
         {this.props.active &&
           <div onClick={() => this.handleSort()} className={`player-sorter-${this.state.sort}`}></div>
         }
+        { /*Inactive State */ }
         {!this.props.active &&
           <div>
             <div onClick={() => this.handleSort("desc")} className="player-sorter-inactive player-sorter-desc" ></div>
