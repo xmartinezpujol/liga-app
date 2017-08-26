@@ -24,5 +24,10 @@ Run Client (ReactJS App) at http://localhost:3000
 npm start
 ```
 
+Run Production Build
+``` shell
+npm run build
+```
+
 ### Tech Stack
 ReactJS, Create React App.
