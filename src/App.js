@@ -130,7 +130,7 @@ class App extends Component {
         {playerlist !== []  &&
           <div style={{animation: "fadeIn 2s"}}>
             <TotalPlayers count={playerlist.length} />
-            <StickyContainer >
+            <StickyContainer className="sticky-container">
               <Sticky relative={true} topOffset={0} disableCompensation>
                 {
                   () => {
