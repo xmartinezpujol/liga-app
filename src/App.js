@@ -215,18 +215,6 @@ class App extends Component {
                   );
               })}
             </div>
-            <div className="filter-list">
-              <strong>Number:</strong>
-              { /* Filter for Number */ }
-              {this.filterList(playersinit, "jerseyNumber", 4).map((option, index) => {
-                  return(
-                    <Filter onCheck={(checked, name, group) => this.handlePlayersFilter(checked, name, group)}
-                            key={index}
-                            group="number"
-                            name={option} />
-                  );
-              })}
-            </div>
             { /* Results table for Players with Sorters */ }
             <StickyContainer className="sticky-container">
               <Sticky relative={true} topOffset={0} disableCompensation>
