@@ -9,6 +9,8 @@ https://xmartinezpujol.github.io/liga-app/
 ### Client localhost
 Node/NPM required to install dependencies.
 
+![XCEED - Frontend The LIGA Challenge - React + API](/public/img/ligaapp.png?raw=true "XCEED - Frontend The LIGA Challenge - React + API")
+
 Clone rep
 ``` shell
 git clone https://github.com/xmartinezpujol/liga-app.git
